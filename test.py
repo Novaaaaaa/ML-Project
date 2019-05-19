@@ -13,11 +13,11 @@ def predict(model, img):
   #x = img.transpose((1, 0, 2))
   x = np.expand_dims(img, axis=0)
   print(x.shape)
-  amin, amax = x.min(), x.max() # 求最大最小值
+  amin, amax = x.min(), x.max() 
   x = (x-amin)/(amax-amin)
   preds = model.predict(x)
   return preds[0]
-# 载入模型
+# load the model
 model = load_model('weight.h5')
 
 label_map_path = "./data/label.txt"
@@ -27,11 +27,11 @@ for line_number, label in enumerate(label_map_file.readlines()):
     label_map[line_number] = label.split(':')[0].strip('\n')
     line_number += 1
 label_map_file.close()
-# 本地图片
+# local figures
 img = cv2.resize(cv2.imread('0.jpg'),
                     (224, 224))
 preds = predict(model,img)
 ordered_index = np.argmax(preds)
-print('预测类别:',label_map[ordered_index])
-print('预测概率:',preds[ordered_index])
+print('Predicted class:',label_map[ordered_index])
+print('Prediction probability:',preds[ordered_index])
 
